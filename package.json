@@ -1,10 +1,10 @@
 {
-  "name": "sample-app",
+  "name": "sample-project",
   "version": "1.0.0",
-  "description": "something",
+  "description": "this is a sample project",
   "main": "index.js",
   "scripts": {
-    "test": "dev"
+    "test": "start"
   },
   "author": "karthik",
   "license": "ISC"
