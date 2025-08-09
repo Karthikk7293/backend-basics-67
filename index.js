@@ -3,16 +3,25 @@ const fs = require('fs')
 
 
 const server = http.createServer((req, res) => {
-    console.log("hello world inside the server");
 
-    // fs.writeFileSync('text.txt', '\n hello world!')
+    // console.log(req);
 
-    fs.appendFile('../../../Desktop/E67/backend-basics/text.txt', '\n new data added', () => {
-        console.log("completed!");
+    const { method, url } = req
 
-    })
 
-    res.end("hello world! response to the client")
+    if (method === 'GET' && url === '/') {
+        console.log({ method, url });
+
+        res.end(JSON.stringify({ success: true, message: "this is completed" }))
+
+    } else if (method === 'GET' && url === '/users') {
+        console.log({ method, url });
+
+        res.end(JSON.stringify({ success: true, message: "this is user route" }))
+    }
+
+
+
 })
 
 server.listen(3000, () => {
