@@ -1,5 +1,5 @@
 export const statusCodes = [
-    { code: 200, message: 'OK' },
+    { code: 200, message: 'Ok' },
     { code: 201, message: 'Created' },
     { code: 204, message: 'No Content' },
     { code: 400, message: 'Bad Request' },
