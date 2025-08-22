@@ -8,6 +8,7 @@ export const productsData = [
         category: 'Category 1',
         stock: 100,
         rating: 4.5,
+        age: 10
     },
     {
         id: 2,

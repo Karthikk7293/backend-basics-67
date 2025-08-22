@@ -2,7 +2,9 @@ import express from 'express'
 import userRouter from './routes/userRouter.js'
 import productRoter from './routes/productRouter.js'
 import dotenv from 'dotenv'
+import { connectDatabase } from './config/connectDatabase.js'
 dotenv.config()
+connectDatabase()
 
 const app = express()
 
