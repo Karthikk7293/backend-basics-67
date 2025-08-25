@@ -1,7 +1,7 @@
 export const productsData = [
     {
         id: 1,
-        name: 'Product 1',
+        name: 'Product  dasf1',
         description: 'Description for Product 1',
         price: 29.99,
         imageUrl: 'https://example.com/product1.jpg',
