@@ -3,6 +3,7 @@ import userRouter from './routes/userRouter.js'
 import productRoter from './routes/productRouter.js'
 import dotenv from 'dotenv'
 import { connectDatabase } from './config/connectDatabase.js'
+import { globalErrorHandler } from './middlewares/errorMiddleware.js'
 dotenv.config()
 connectDatabase()
 
@@ -13,6 +14,8 @@ app.use(express.json())
 app.use('/api/users', userRouter)
 app.use('/api/products', productRoter)
 
+
+app.use(globalErrorHandler)
 
 app.listen(process.env.PORT, () => {
     console.log(`  Server is running on port ${process.env.PORT}`);

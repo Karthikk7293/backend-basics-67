@@ -1,11 +1,27 @@
+import { asyncHandler } from "../middlewares/asyncHandler.js"
+import { DatabaseError, NotFoundError } from "../middlewares/errorMiddleware.js"
 import { Products } from "../models/productModel.js"
 
-export const fetchAllProductsService = async () => {
+export const fetchAllProductsService = async (query) => {
     try {
-        // find multile doc with price range
-        const allProducts = await Products.find({ price: { $lte: 1000, $gte: 500 }, brand: 'Samsung' })
+        const { page, limit = 5, subcategory, priceHigh, priceLow } = query
 
-        return { success: true, allProducts }
+        console.log({ page, limit, subcategory });
+
+        const filter = {}
+
+        if (subcategory) {
+            filter.subcategory = subcategory
+        }
+        if (priceHigh && priceLow) {
+            filter.price = { $lte: priceHigh, $gte: priceLow }
+        }
+        console.log(filter);
+
+        // find multile doc with price range
+        const allProducts = await Products.find(filter).limit(limit)
+
+        return { success: true, length: allProducts.length, allProducts }
 
     } catch (error) {
         return { success: false, error: error.message }
@@ -32,6 +48,21 @@ export const updateProductService = async (id) => {
         return { success: false, error: error.message }
     }
 }
+export const getProductByIdService = async (productId) => {
+    try {
+        const product = await Products.findById(productId)
+
+        if (!product) {
+            throw new NotFoundError("Product not found!")
+        }
+
+        return { success: true, product }
+    } catch (error) {
+        throw new DatabaseError(error.message)
+    }
+
+}
+
 
 export const deleteProductService = async (id) => {
     try {
