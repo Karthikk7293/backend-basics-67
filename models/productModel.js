@@ -10,4 +10,7 @@ const productSchema = Schema({
     costPrice: Number,
 }, { timestamp: true })
 
+productSchema.index({ brand: 1, pirce: -1 })
+productSchema.index({ name: 'text' })
+
 export const Products = model('products', productSchema)

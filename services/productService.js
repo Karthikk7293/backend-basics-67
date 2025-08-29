@@ -1,12 +1,15 @@
+import { avgProductsList, productList, productProfit } from "../helpers/aggregation.js"
 import { asyncHandler } from "../middlewares/asyncHandler.js"
 import { DatabaseError, NotFoundError } from "../middlewares/errorMiddleware.js"
 import { Products } from "../models/productModel.js"
 
 export const fetchAllProductsService = async (query) => {
     try {
+
+
         const { page, limit = 5, subcategory, priceHigh, priceLow } = query
 
-        console.log({ page, limit, subcategory });
+        // console.log({ page, limit, subcategory });
 
         const filter = {}
 
@@ -16,12 +19,17 @@ export const fetchAllProductsService = async (query) => {
         if (priceHigh && priceLow) {
             filter.price = { $lte: priceHigh, $gte: priceLow }
         }
-        console.log(filter);
+        // console.log(filter);
 
         // find multile doc with price range
-        const allProducts = await Products.find(filter).limit(limit)
+        // const allProducts = await Products.find(filter).limit(limit)
 
-        return { success: true, length: allProducts.length, allProducts }
+        // const response = await avgProductsList()
+        // const response = await productList()
+        const response = await productProfit()
+
+
+        return { success: true, allProducts: response }
 
     } catch (error) {
         return { success: false, error: error.message }

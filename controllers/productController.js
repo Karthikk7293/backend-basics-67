@@ -12,7 +12,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         throw new NotFoundError("No product found!")
     }
 
-    if (!products || products.allProducts.length === 0) {
+    if (!products || products?.allProducts?.length === 0) {
         throw new NotFoundError("No product found!")
     }
 
