@@ -1,17 +1,40 @@
+import jwt from "jsonwebtoken";
 import { statusCodes } from "../helpers/userHelpers.js";
-import { createUserService } from "../services/userService.js";
+import { asyncHandler } from "../middlewares/asyncHandler.js";
+import { sendSuccess } from "../middlewares/errorMiddleware.js";
+import { createUserService, getuserDetailsWithIdService, loginUserService } from "../services/userService.js";
 
-export const loginUser = async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
+
     const { email, password } = req.body;
-    console.log({ email, password });
 
+    console.log(email, password);
 
-    const status = statusCodes.find((item) => item.code === 200);
+    const user = await loginUserService(req.body)
 
-    res.status(status.code).json({ success: true, message: "login successful!" })
+    const data = {
+        name: user.name,
+        email: user.email,
+        id: user._id
+    }
 
+    const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' })
 
-}
+    const response = {
+        message: "login successful!",
+        user,
+        token
+    }
+    sendSuccess(res, response)
+
+})
+
+export const getUserProfile = asyncHandler(async (req, res) => {
+
+    const user = await getuserDetailsWithIdService(req.user.id)
+
+    sendSuccess(res, { user })
+})
 
 export const createUser = async (req, res) => {
     try {
