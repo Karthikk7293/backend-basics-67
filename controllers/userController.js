@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { statusCodes } from "../helpers/userHelpers.js";
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import { sendSuccess } from "../middlewares/errorMiddleware.js";
-import { createUserService, getuserDetailsWithIdService, loginUserService } from "../services/userService.js";
+import { createUserService, getuserDetailsWithIdService, loginUserService, updateUserRoleService } from "../services/userService.js";
 import bcrypt from "bcryptjs";
 
 export const loginUser = asyncHandler(async (req, res) => {
@@ -16,7 +16,8 @@ export const loginUser = asyncHandler(async (req, res) => {
     const data = {
         name: user.name,
         email: user.email,
-        id: user._id
+        id: user._id,
+        role: user.role
     }
 
     const token = jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '1h' })
@@ -33,6 +34,13 @@ export const loginUser = asyncHandler(async (req, res) => {
 export const getUserProfile = asyncHandler(async (req, res) => {
 
     const user = await getuserDetailsWithIdService(req.user.id)
+
+    sendSuccess(res, { user })
+})
+
+export const updateUserRole = asyncHandler(async (req, res) => {
+    const { userId, role } = req.body
+    const user = await updateUserRoleService(userId, role)
 
     sendSuccess(res, { user })
 })
