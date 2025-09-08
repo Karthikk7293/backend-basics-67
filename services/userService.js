@@ -1,5 +1,6 @@
 import { DatabaseError, NotFoundError, ValidationError } from "../middlewares/errorMiddleware.js";
 import { User } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
 
 export const createUserService = async (userDetails) => {
     try {
@@ -7,7 +8,7 @@ export const createUserService = async (userDetails) => {
         const user = new User(userDetails)
         await user.save()
 
-        // console.log(user);
+        console.log(user);
         return { success: true, user }
 
     } catch (error) {
@@ -23,7 +24,9 @@ export const loginUserService = async (payload) => {
         if (!user) {
             throw new NotFoundError("user not found!")
         }
-        if (user.password !== password) {
+        const response = await bcrypt.compare(password, user.password)
+
+        if (!response) {
             throw new ValidationError("incorrect password!")
         }
         return user

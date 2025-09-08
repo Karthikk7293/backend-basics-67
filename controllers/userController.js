@@ -3,6 +3,7 @@ import { statusCodes } from "../helpers/userHelpers.js";
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import { sendSuccess } from "../middlewares/errorMiddleware.js";
 import { createUserService, getuserDetailsWithIdService, loginUserService } from "../services/userService.js";
+import bcrypt from "bcryptjs";
 
 export const loginUser = asyncHandler(async (req, res) => {
 
@@ -42,6 +43,9 @@ export const createUser = async (req, res) => {
 
         console.log(req.body);
 
+        const newPassword = await bcrypt.hash(password, 12)
+        console.log(newPassword);
+        req.body.password = newPassword
 
         const response = await createUserService(req.body)
 
