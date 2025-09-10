@@ -36,7 +36,7 @@ export const loginUserService = async (payload) => {
             throw new ValidationError("incorrect password!") // Error if password mismatch
         }
 
-        return user // Return user if login is successful
+        return { name: user.name, _id: user._id, role: user.role, email: user.email } // Return user if login is successful
     } catch (error) {
         throw new DatabaseError(error.message) // Wrap and throw database error
     }

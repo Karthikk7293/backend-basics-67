@@ -4,10 +4,13 @@ import productRoter from './routes/productRouter.js'
 import dotenv from 'dotenv'
 import { connectDatabase } from './config/connectDatabase.js'
 import { globalErrorHandler } from './middlewares/errorMiddleware.js'
+import cors from 'cors'
+
 dotenv.config()
 connectDatabase()
 
 const app = express()
+app.use(cors())
 
 app.use(express.json())
 
