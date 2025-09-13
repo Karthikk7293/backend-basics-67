@@ -9,8 +9,22 @@ import cors from 'cors'
 dotenv.config()
 connectDatabase()
 
+const allowOrigins = ['http://localhost:5173', 'https://react-basics-67.vercel.app']
+
 const app = express()
-app.use(cors())
+app.use(cors({
+    origin: function (origin, callback) {
+
+        if (!origin) return callback(null, true)
+
+        if (allowOrigins.includes(origin)) {
+            return callback(null, true)
+        } else {
+            return callback(new Error('Not allowed by CORS'))
+        }
+
+    }
+}))
 
 app.use(express.json())
 
