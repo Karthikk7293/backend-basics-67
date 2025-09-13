@@ -14,13 +14,14 @@ app.use(cors())
 
 app.use(express.json())
 
-app.use('/', (req, res) => {
-    res.send("<h1>Welcome to E-commerce API</h1>")
-})
+
 
 app.use('/api/users', userRouter)
 app.use('/api/products', productRoter)
 
+app.use('/api', (req, res) => {
+    res.send("Welcome to E-commerce API")
+})
 
 app.use(globalErrorHandler)
 
